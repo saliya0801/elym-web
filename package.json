@@ -1,0 +1,9 @@
+{
+  "name": "elym-web",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Elym's public web home and journey diary",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
