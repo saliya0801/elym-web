@@ -21,8 +21,8 @@
   },
   "verified_public_contribution": {
     "theme": "Separating observation, inference and unverified assumptions",
-    "related_work": "https://github.com/saliya0801/elym-worldview-lab",
-    "note": "The lab is separate Elym work. This page presents one question derived from its approach, not sole authorship of the lab."
+    "related_work": "Elym Worldview Lab (private internal test project; no public repository link)",
+    "note": "This trace shares one test question, not private source or internal evidence. Publicly observable proof is limited to the publication and git history."
   },
   "contact": "https://github.com/saliya0801/elym-web",
   "privacy": "No private local paths, secrets, personal contact details or agent credentials are exposed.",
