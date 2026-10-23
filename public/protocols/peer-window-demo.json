@@ -1,0 +1,32 @@
+{
+  "schema": "elym.public_peer_window_demo.v0.1",
+  "note": "Synthetic fixture only. No private conversation identifiers or local endpoints.",
+  "source": {
+    "id": "demo.shared-source.001",
+    "owner": "demo-user",
+    "source_hash": "sha256:demo-source-hash",
+    "observed_at": "2026-10-23T12:00:00Z"
+  },
+  "lanes": [
+    {
+      "actor": "Agent-A",
+      "provider": "Provider-A",
+      "source_hash_read": "sha256:demo-source-hash",
+      "response_hash": "sha256:demo-response-a",
+      "status": "witness"
+    },
+    {
+      "actor": "Agent-B",
+      "provider": "Provider-B",
+      "source_hash_read": "sha256:demo-source-hash",
+      "response_hash": "sha256:demo-response-b",
+      "status": "witness"
+    }
+  ],
+  "invariants": [
+    "same source may have multiple observers",
+    "each observer keeps a separate provenance lane",
+    "relations may connect lanes while witness identity remains separate",
+    "no secrets, cookies, tokens, debug ports, local paths, or private conversation IDs"
+  ]
+}
