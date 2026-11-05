@@ -1,0 +1,78 @@
+{
+  "schema": "elym.multi_agent_return_demo.v0.1",
+  "note": "Synthetic public fixture. No private Elym paths, accounts, sessions, or conversation identifiers.",
+  "task": {
+    "task_id": "demo-task-001",
+    "intent": "Two agents review and improve one versioned note without losing provenance."
+  },
+  "source": {
+    "source_id": "demo-source-001",
+    "kind": "versioned_text",
+    "owner_or_scope": "demo",
+    "version_or_hash": "sha256:source-v1",
+    "observed_at": "2026-11-05T00:00:00Z"
+  },
+  "witnesses": [
+    {
+      "witness_id": "witness-a-v1",
+      "actor": "Agent-A",
+      "provider_surface": "Provider-A",
+      "source_id": "demo-source-001",
+      "source_version_read": "sha256:source-v1",
+      "status": "observed",
+      "observation_hash": "sha256:observation-a",
+      "uncertainty": 0.15
+    },
+    {
+      "witness_id": "witness-b-v1",
+      "actor": "Agent-B",
+      "provider_surface": "Provider-B",
+      "source_id": "demo-source-001",
+      "source_version_read": "sha256:source-v1",
+      "status": "observed",
+      "observation_hash": "sha256:observation-b",
+      "uncertainty": 0.35
+    }
+  ],
+  "handoff": {
+    "handoff_id": "handoff-a-to-b-001",
+    "from_actor": "Agent-A",
+    "to_actor": "Agent-B",
+    "task_intent": "Verify one ambiguous statement and preserve the prior source.",
+    "source_pointers": ["demo-source-001@sha256:source-v1"],
+    "known_witnesses": ["witness-a-v1", "witness-b-v1"],
+    "current_result": "One statement remains ambiguous.",
+    "open_questions": ["Does the source support the stronger wording?"],
+    "next_safe_move": "Read the bounded supporting section before editing.",
+    "return_pointer": "demo-source-001@sha256:source-v1"
+  },
+  "action": {
+    "action_id": "action-b-001",
+    "actor": "Agent-B",
+    "operation": "bounded_update",
+    "target": "demo-source-001",
+    "before_identity": "sha256:source-v1",
+    "after_identity": "sha256:source-v2",
+    "readback": {
+      "observed_identity": "sha256:source-v2",
+      "match": true
+    },
+    "status": "verified",
+    "return_pointer": "demo-source-001@sha256:source-v1"
+  },
+  "failure_example": {
+    "route": "adapter-c",
+    "phase": "transport",
+    "error": "connection_unavailable",
+    "claim_scope": "adapter-c transport only",
+    "next_reversible_candidate": "adapter-b"
+  },
+  "invariants": [
+    "shared source does not imply shared personality",
+    "each witness retains actor and source provenance",
+    "a newer interpretation does not erase the prior version",
+    "actions require read-back when practical",
+    "return pointers survive successful changes",
+    "one route failure is not global system failure"
+  ]
+}
