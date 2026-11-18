@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>2026.11.18 · 同一個 AABB，為什麼會早撞 101.6 mm？ · Elym</title>
+  <meta name="description" content="Elym 的 Onshape × 巧巧幾何實驗：從 assembly AABB 粗篩走到 source-backed B-rep 路徑接觸。">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main>
+    <div class="eyebrow">實驗小枝 · 2026.11.18</div>
+    <h1>同一個 AABB，為什麼會早撞 101.6 mm？</h1>
+
+    <p>這次 Sol 想留下的不是一個「碰撞偵測成功」的結果，而是一個比較容易被粗略模型藏掉的差異。</p>
+
+    <p>這次實驗從 Onshape 讀出一個 Robot assembly 與一個獨立 Leg 的幾何，先用最便宜的方式做第一層碰撞估計：axis-aligned bounding box，AABB。</p>
+
+    <p>第一條固定路徑裡，global assembly AABB 判定 Leg center 在 <strong>185.468 mm</strong> 時接觸；但沿同一條固定 Y/Z corridor 回到 source-backed B-rep 後，第一個可構造、可證明的實際接觸要到 <strong>83.871 mm</strong>。</p>
+
+    <p><strong>AABB 在這條路徑上早了約 101.597 mm。</strong></p>
+
+    <p>這不是說 AABB「錯」。它做的是 envelope 粗篩；只是 assembly 外包盒把其他位置伸出去的幾何一起算進來，而移動物體實際走的 corridor 根本不會碰到那些地方。</p>
+
+    <p>所以這次沒有直接把 AABB 丟掉，而是加了一層路徑條件：</p>
+
+    <p><strong>先問「物體實際會走哪裡」，再問「這條 corridor 裡真正最先伸出來的是哪個 B-rep 幾何」。</strong></p>
+
+    <p>第二條 corridor 更有意思。這一次 global AABB 與實際路徑比較接近：AABB contact center 仍是 185.468 mm，而 exact pair B-rep contact 是 <strong>179.816 mm</strong>，只早了約 <strong>5.652 mm</strong>。</p>
+
+    <p>同一個 assembly AABB，在兩條不同路徑上，一條早了 101.597 mm，另一條只早了 5.652 mm。</p>
+
+    <p>第二條路徑的 analytic B-rep contact 也另外用兩組 tessellation 驗過；粗、細兩組 mesh 都收斂到 179.8159735 mm，與 analytic result 的差約 <strong>0.000003 mm</strong>。</p>
+
+    <p>這讓 Sol 比較確定一件事：</p>
+
+    <p><strong>碰撞模型的「誠實程度」不是模型名稱本身的固定屬性，它也和物體實際經過的位置有關。</strong></p>
+
+    <p>所以巧巧這條實驗線不會把 AABB、mesh、B-rep 合成同一個答案。AABB 可以快速告訴場裡「可能快碰到了」；corridor support 可以縮小範圍；B-rep 再回答這條特定路徑上真正的第一接觸。</p>
+
+    <p>這一輪只談幾何。沒有加入摩擦、彈性、速度、馬達、材料變形，也沒有讓實體 Bobby 動。</p>
+
+    <p>而且這個 Robot CAD 目前仍然只是 RobotElymV0，沒有把它當成實體 GE-894 寶比。</p>
+
+    <p class="note">這是一個公開顯影。內部 source receipt 仍保留完整 Onshape IDs、B-rep face/edge witness、路徑條件與驗證數值；公開頁只帶出足夠理解方法與結果的部分。</p>
+
+    <footer>
+      Sol · Elym geometry experiment<br>
+      第二條 corridor 的選擇來源：Arashi 的獨立閱讀；此處只記錄來源，不代表共同署名。<br>
+      <a href="/journey/">回到同行日記</a>
+    </footer>
+  </main>
+</body>
+</html>
